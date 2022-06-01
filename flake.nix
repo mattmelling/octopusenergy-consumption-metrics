@@ -6,7 +6,10 @@
         system = "x86_64-linux";
       };
       octopusenergy-consumption-metrics = (pkgs: let
-        nodeEnv = import ./node2nix.nix { inherit pkgs; };
+        nodejs = pkgs.nodejs-14_x;
+        nodeEnv = import ./node2nix.nix {
+          inherit pkgs nodejs;
+        };
         npm = "${pkgs.nodePackages.npm}/bin/npm";
         runtime = pkgs.stdenv.mkDerivation {
           name = "octopusenergy-consumption-metrics";
@@ -24,7 +27,7 @@
         };
       in pkgs.writeScriptBin "octopusenergy-consumption-metrics" ''
         #!${pkgs.stdenv.shell}
-        ${pkgs.nodejs}/bin/node ${runtime}/index.js
+        ${nodejs}/bin/node ${runtime}/index.js
       '');
     in rec {
       devShell = pkgs.lib.genAttrs systems (system: let
@@ -33,13 +36,13 @@
         };
       in pkgs.mkShell {
         buildInputs = with pkgs; [
-          nodejs
+          nodejs-14_x
           nodePackages.node2nix
         ];
         shellHook = let
           nodeEnv = import ./node2nix.nix { inherit pkgs; };
         in ''
-          rm node_modules
+          rm -rf node_modules
           ln -s ${nodeEnv.shell.nodeDependencies}/lib/node_modules node_modules
         '';
       });
