@@ -30,6 +30,9 @@
         ${nodejs}/bin/node ${runtime}/index.js
       '');
     in rec {
+      hydraJobs = {
+        inherit packages;
+      };
       devShell = pkgs.lib.genAttrs systems (system: let
         pkgs = import nixpkgs {
           inherit system;
