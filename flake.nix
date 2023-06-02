@@ -6,7 +6,7 @@
         system = "x86_64-linux";
       };
       octopusenergy-consumption-metrics = (pkgs: let
-        nodejs = pkgs.nodejs-14_x;
+        nodejs = pkgs.nodejs;
         nodeEnv = import ./node2nix.nix {
           inherit pkgs nodejs;
         };
