@@ -20,10 +20,10 @@
           dontConfigure = true;
           dontBuild = true;
           installPhase = ''
-              mkdir -p $out
-              cp -R ./ $out/
-              ln -s ${nodeEnv.shell.nodeDependencies}/lib/node_modules/ $out/node_modules
-            '';
+            mkdir -p $out
+            cp -R ./ $out/
+            ln -s ${nodeEnv.shell.nodeDependencies}/lib/node_modules/ $out/node_modules
+          '';
         };
       in pkgs.writeScriptBin "octopusenergy-consumption-metrics" ''
         #!${pkgs.stdenv.shell}
@@ -39,7 +39,7 @@
         };
       in pkgs.mkShell {
         buildInputs = with pkgs; [
-          nodejs-14_x
+          nodejs
           nodePackages.node2nix
         ];
         shellHook = let
